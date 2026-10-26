@@ -1,0 +1,40 @@
+name: Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      # اینجا به گیت‌هاب می‌گوییم که کدها داخل پوشه JibiAI هستند
+      - name: Build debug APK
+        working-directory: JibiAI
+        run: gradle --no-daemon assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: jibi-ai-debug-apk
+          # مسیر خروجی هم باید داخل همان پوشه باشد
+          path: JibiAI/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
