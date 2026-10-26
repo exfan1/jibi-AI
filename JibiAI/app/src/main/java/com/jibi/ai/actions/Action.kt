@@ -1,0 +1,26 @@
+package com.jibi.ai.actions
+
+sealed class Action {
+    data class OpenApp(val packageName: String, val label: String): Action()
+    data class ClickText(val text: String): Action()
+    data class TypeText(val text: String): Action()
+    data class Scroll(val down: Boolean): Action()
+    data object Home: Action()
+    data object Back: Action()
+    data object Recents: Action()
+    data object Notifications: Action()
+    data object Settings: Action()
+    data object WifiSettings: Action()
+    data object BluetoothSettings: Action()
+    data class WebSearch(val query: String): Action()
+    data class MapsSearch(val query: String): Action()
+    data class Dial(val number: String?): Action()
+    data class Sms(val body: String): Action()
+    data class Alarm(val hour: Int, val minute: Int): Action()
+    data object Camera: Action()
+    data object ToggleFlash: Action()
+    data class Remember(val value: String): Action()
+    data object RecallMemory: Action()
+    data object ReadNotifications: Action()
+    data class AskAI(val prompt: String): Action()
+}
